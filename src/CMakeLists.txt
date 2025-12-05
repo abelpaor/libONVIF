@@ -1,6 +1,6 @@
 include(GenerateExportHeader)
 include(CMakePackageConfigHelpers)
-find_package(Qt6 COMPONENTS Core REQUIRED)
+find_package(Qt5 COMPONENTS Core Network REQUIRED )
 if (ENABLE_CODESYNTHESIS)
     find_program(Gsoap_wsdl2h_PATH NAMES wsdl2h PATH_SUFFIXES "bin")
     find_program(Gsoap_soapcpp2_PATH NAMES soapcpp2 PATH_SUFFIXES "bin")
@@ -104,7 +104,7 @@ set(src_files
         headerParser/main.cpp
 )
 
-add_executable(headerParserTool ${src_files})
+add_library(headerParserTool ${src_files})
 
 # -------------------------------ONVIF Common-------------------------------
 set(src_files
@@ -166,7 +166,7 @@ target_include_directories(onvifcommon
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/gsoap> $<INSTALL_INTERFACE:include>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_SOURCE_DIR}/generated> $<INSTALL_INTERFACE:include>
         PUBLIC $<BUILD_INTERFACE:${CMAKE_CURRENT_BINARY_DIR}>)
-target_link_libraries(onvifcommon PUBLIC Qt6::Core)
+target_link_libraries(onvifcommon PUBLIC Qt5::Core)
 target_compile_definitions(onvifcommon PUBLIC WITH_SELF_PIPE PUBLIC WITH_DOM)
 if (HAS_OPENSSL)
     target_compile_definitions(onvifcommon PUBLIC WITH_OPENSSL)
@@ -512,8 +512,11 @@ set(private_header_files
         OnvifDevice.h
 )
 
-add_executable(onvifinfo ${src_files} ${private_header_files})
-target_link_libraries(onvifinfo onvifcommon onvifdevice onvifdiscovery onvifreplay onvifprobe onvifrecording onvifreceiver onvifptz onvifmedia onvifmedia2 onvifimaging onvifevent onvifdisplay onvifanalytics)
+add_library(onvifinfo ${src_files} ${private_header_files})
+target_link_libraries(onvifinfo onvifcommon onvifdevice onvifdiscovery onvifreplay onvifprobe onvifrecording onvifreceiver onvifptz onvifmedia onvifmedia2 onvifimaging onvifevent onvifdisplay onvifanalytics
+        Qt5::Core
+        Qt5::Network
+)
 
 if (MSVC)
     set_target_properties(onvifinfo onvifcommon onvifdevice onvifdiscovery onvifreplay onvifprobe onvifrecording onvifreceiver onvifptz onvifmedia onvifmedia2 onvifimaging onvifevent onvifdisplay onvifanalytics PROPERTIES COMPILE_FLAGS "/bigobj")

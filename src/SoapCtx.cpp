@@ -17,7 +17,7 @@
 #ifdef WITH_OPENSSL
 #include "httpda.h"
 #endif // WITH_OPENSSL
-#include "info.h"
+// #include "info.h"
 #include "namespaces.nsmap"
 #include "wsaapi.h"
 #include <QDebug>
@@ -38,10 +38,10 @@ struct arbData {
 
 	bool enableDebug = false;
 	QString userAgent = QString("%1/%2.%3.%4 (%5; %6)")
-	                     .arg(INFO_PROJECTNAME)
-	                     .arg(INFO_VERSION_MAJOR)
-	                     .arg(INFO_VERSION_MINOR)
-	                     .arg(INFO_VERSION_PATCH)
+	                    //  .arg(INFO_PROJECTNAME)
+	                    //  .arg(INFO_VERSION_MAJOR)
+	                    //  .arg(INFO_VERSION_MINOR)
+	                    //  .arg(INFO_VERSION_PATCH)
 	                     .arg(QSysInfo::prettyProductName())
 	                     .arg(QSysInfo::currentCpuArchitecture());
 	int (*fsend)(struct soap *, const char *, size_t) = nullptr;
